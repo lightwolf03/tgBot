@@ -12,6 +12,9 @@
 #define DELTA_STAR 1
 #endif
 
+#define WEATHER_TOKEN "eee318bf4a5a5b19aecfd9d1c4d7c3a9"
+#define N4K_ID "518976"
+
 namespace helpers {
     static std::string buffer;
 
