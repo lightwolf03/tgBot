@@ -20,18 +20,28 @@ int main() {
     bot.getEvents().onCommand("4eb", [&bot](TgBot::Message::Ptr msg) {
         bot.getApi().sendMessage(msg->chat->id, helpers::getWeatherFor4eb(),  false, 0, NULL, "Markdown");
     });
-//    bot.getEvents().onAnyMessage([&bot](TgBot::Message::Ptr message) {
-//        printf("User wrote %s\n", message->text.c_str());
-//        if (StringTools::startsWith(message->text, "/start")) {
-//            return;
-//        }
-//        bot.getApi().sendMessage(message->chat->id, "Your message is: " + message->text);
-//    });
+    bot.getEvents().onCommand("monday", [&bot, &db](TgBot::Message::Ptr msg) {
+        bot.getApi().sendMessage(msg->chat->id, helpers::getClassesFor(db, "Monday"), false, 0, NULL, "Markdown");
+    });
+    bot.getEvents().onCommand("tuesday", [&bot, &db](TgBot::Message::Ptr msg) {
+        bot.getApi().sendMessage(msg->chat->id, helpers::getClassesFor(db, "Tuesday"), false, 0, NULL, "Markdown");
+    });
+    bot.getEvents().onCommand("wednesday", [&bot, &db](TgBot::Message::Ptr msg) {
+        bot.getApi().sendMessage(msg->chat->id, helpers::getClassesFor(db, "Wednesday"), false, 0, NULL, "Markdown");
+    });
+    bot.getEvents().onCommand("thursday", [&bot, &db](TgBot::Message::Ptr msg) {
+        bot.getApi().sendMessage(msg->chat->id, helpers::getClassesFor(db, "Thursday"), false, 0, NULL, "Markdown");
+    });
+    bot.getEvents().onCommand("friday", [&bot, &db](TgBot::Message::Ptr msg) {
+        bot.getApi().sendMessage(msg->chat->id, helpers::getClassesFor(db, "Friday"), false, 0, NULL, "Markdown");
+    });
+    bot.getEvents().onCommand("saturday", [&bot, &db](TgBot::Message::Ptr msg) {
+        bot.getApi().sendMessage(msg->chat->id, helpers::getClassesFor(db, "Saturday"), false, 0, NULL, "Markdown");
+    });
     try {
         printf("Bot username: %s\n", bot.getApi().getMe()->username.c_str());
         TgBot::TgLongPoll longPoll(bot);
         while (true) {
-//            printf("Long poll started\n");
             longPoll.start();
         }
     } catch (TgBot::TgException& e) {

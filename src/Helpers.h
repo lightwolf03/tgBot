@@ -1,17 +1,12 @@
 #ifndef RASPBOT_HELPERS_H
 #define RASPBOT_HELPERS_H
 
-#include <chrono>
 #include <string>
-#include "iso_week.h"
-#include "date.h"
+
 #include "json.h"
 #include <curl/curl.h>
 #include <boost/format.hpp>
-
-#ifndef DELTA_STAR
-#define DELTA_STAR 1
-#endif
+#include "Database.h"
 
 #define WEATHER_TOKEN "eee318bf4a5a5b19aecfd9d1c4d7c3a9"
 #define N4K_ID "518976"
@@ -28,14 +23,6 @@ namespace helpers {
             result = size * nmemb;
         }
         return result;
-    }
-
-    unsigned getStarOfWeak() {
-        auto now = std::chrono::system_clock::now();
-        auto dp = date::floor<iso_week::days>(now);
-        iso_week::year_weeknum_weekday iso_date = dp;
-        iso_week::weeknum weeknum = iso_date.weeknum();
-        return unsigned(weeknum) % 2 + DELTA_STAR;
     }
 
     void getRequest(std::string& s, std::string cityID) {
@@ -74,6 +61,17 @@ namespace helpers {
         std::string s;
         getRequest(s, CHEB_ID);
         return s;
+    }
+
+    std::string getClassesFor(Database& db, std::string day) {
+        std::vector<Class> classes;
+        db.getClassesFor(classes, day);
+        std::stringstream ss;
+        ss << boost::format("_Shedule on_ *%1%*") % day << std::endl;
+        for (Class& c: classes) {
+            ss << boost::format("*%1%* _%2%_") % c.number % c.name << std::endl;
+        }
+        return ss.str();
     }
 }
 
