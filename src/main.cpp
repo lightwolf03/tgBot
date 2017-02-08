@@ -17,6 +17,9 @@ int main() {
     bot.getEvents().onCommand("n4k", [&bot](TgBot::Message::Ptr msg) {
        bot.getApi().sendMessage(msg->chat->id, helpers::getWeatherForN4k(), false, 0, NULL, "Markdown");
     });
+    bot.getEvents().onCommand("4eb", [&bot](TgBot::Message::Ptr msg) {
+        bot.getApi().sendMessage(msg->chat->id, helpers::getWeatherFor4eb(),  false, 0, NULL, "Markdown");
+    });
 //    bot.getEvents().onAnyMessage([&bot](TgBot::Message::Ptr message) {
 //        printf("User wrote %s\n", message->text.c_str());
 //        if (StringTools::startsWith(message->text, "/start")) {
