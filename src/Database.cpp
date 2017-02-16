@@ -24,7 +24,7 @@ unsigned Database::getStarOfWeek() {
     iso_week::year_weeknum_weekday iso_date = dp;
     iso_week::weeknum weeknum = iso_date.weeknum();
     unsigned tmp = unsigned(weeknum) % 2 + DELTA_STAR;
-    if (tmp == 0) return 2;
+    if (tmp == 0 || tmp == 2) return 2;
     else return 1;
 }
 
