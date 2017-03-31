@@ -3,6 +3,7 @@
 #include "Database.h"
 #include "Helpers.h"
 #include "Weather.h"
+#include "Converter.h"
 
 #define BOT_TOKEN "249701168:AAHhfNlRLjY5_YW3QclSCqDfpm4auUta--E"
 #define TEST_BOT_TOKEN "331463922:AAHu61CE7IdDe6EFCtQ71GPgFDvuGTq-R7w"
@@ -39,6 +40,13 @@ int main() {
     });
     bot.getEvents().onCommand("saturday", [&bot, &db](TgBot::Message::Ptr msg) {
         bot.getApi().sendMessage(msg->chat->id, helpers::getClassesFor(db, "Saturday"), false, 0, NULL, "Markdown");
+    });
+
+    bot.getEvents().onAnyMessage([&bot](TgBot::Message::Ptr msg) {
+        auto filePtr = fromLink(msg->text);
+        if (filePtr == NULL)
+            return;
+        bot.getApi().sendDocument(msg->chat->id, filePtr);
     });
     try {
         printf("Bot username: %s\n", bot.getApi().getMe()->username.c_str());
